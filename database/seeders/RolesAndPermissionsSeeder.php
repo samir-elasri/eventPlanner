@@ -19,7 +19,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'update own profile']);
         Permission::create(['name' => 'delete own account']);
 
-        // events
+        // event management
         Permission::create(['name' => 'create events']);
         Permission::create(['name' => 'update events']);
         Permission::create(['name' => 'delete events']);
@@ -27,7 +27,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'view all events']);
         Permission::create(['name' => 'view live events']);
 
-        // users
+        // user crud
         Permission::create(['name' => 'create users']);
         Permission::create(['name' => 'view users']);
         Permission::create(['name' => 'update users']);
@@ -39,7 +39,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'view my registrations']);
         Permission::create(['name' => 'cancel event registration']);
 
-        // event registrations management
+        // event registrations crud
         Permission::create(['name' => 'create event registrations']);
         Permission::create(['name' => 'view event registrations']);
         Permission::create(['name' => 'update event registrations']);
