@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Web\AuthController;
+use App\Http\Controllers\Api\Web\RegistrationController;
 use App\Http\Controllers\Api\Web\EventController;
 
 Route::group(['prefix' => 'auth'], function () {
@@ -19,8 +20,12 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'events'], function () {
-        Route::post('/{event_id}/join', [EventController::class, 'joinEvent']);
-        Route::post('/{event_id}/cancel', [EventController::class, 'cancelEvent']);
-        Route::get('/index', [EventController::class, 'index']);
+        Route::get('/index', [EventsController::class, 'index']);
+    });
+
+    Route::group(['prefix' => 'registrations'], function () {
+        Route::get('/index', [RegistrationController::class, 'index']);
+        Route::post('/{event_id}/join', [RegistrationController::class, 'joinRegistration']);
+        Route::post('/{registration_id}/cancel', [RegistrationController::class, 'cancelRegistration']);
     });
 });
