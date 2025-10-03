@@ -42,11 +42,17 @@ class UserController extends Controller
     public function create(Request $request)
     {
         try {
+            $validatedFields = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8',
+            ]);
+
             $user = User::create([
-                "event_id" => $request->input('event_id'),
-                "user_id" => $request->input('user_id'),
-                "status" => $request->input('status', 'pending'),
-                "joined_at" => now()
+                'name' => $validatedFields['name'],
+                'email' => $validatedFields['email'],
+                'password' => bcrypt($validatedFields['password']),
+                'email_verified_at' => now(),
             ]);
 
             return response()->json([
@@ -56,8 +62,8 @@ class UserController extends Controller
             ], 201);
         } catch (Exception $e) {
             return response()->json([
-            'status' => 500,
-            'error' => $e->getMessage()
+                'status' => 500,
+                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -68,9 +74,9 @@ class UserController extends Controller
     public function show(User $user)
     {
         try {
-            $user = Booking::findOrFail($user_id);
+            $user = User::findOrFail($user_id);
             return [
-                'data' => new UserResource($booking)
+                'data' => new UserResource($user)
             ];
         } catch (ModelNotFoundException $e) {
             $errorMessage = "User Not Found!";
@@ -88,23 +94,35 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $user_id)
     {
         try {
-            $user = User::findOrFail($request->user_id);
+            $user = User::findOrFail($user_id);
 
-            $user->update($request->only([
-                'event_id',
-                'user_id',
-                'status',
-                'joined_at'
-            ]));
+            $validatedFields = $request->validate([
+                'name' => 'sometimes|required|string|max:255',
+                'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
+                'password' => 'sometimes|nullable|string|min:8',
+            ]);
+
+            if (isset($validatedFields['password'])) {
+                $validatedFields['password'] = bcrypt($validatedFields['password']);
+            } else {
+                unset($validatedFields['password']);
+            }
+
+            $user->update($validatedFields);
 
             return response()->json([
                 'status' => 200,
                 'message' => 'User updated successfully',
                 'data' => new UserResource($user)
             ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => 404,
+                'error' => 'User not found!'
+            ], 404);
         } catch (Exception $e) {
             return response()->json([
                 'status' => 500,

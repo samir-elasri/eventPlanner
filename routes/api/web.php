@@ -11,16 +11,11 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
     Route::middleware('auth:sanctum')->get('/', [AuthController::class, 'loggedInUser']);
-
-    Route::group(['prefix' => 'profile', 'middleware' => 'auth:sanctum'], function () {
-        Route::patch('/', [AuthController::class, 'update']);
-        Route::delete('/', [AuthController::class, 'delete']);
-    });
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'events'], function () {
-        Route::get('/index', [EventsController::class, 'index']);
+        Route::get('/index', [EventController::class, 'index']);
     });
 
     Route::group(['prefix' => 'registrations'], function () {
