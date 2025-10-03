@@ -6,102 +6,36 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\Web\User\UserResource;
-use Exception;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Repositories\Web\AuthRepository;
 
 class AuthController extends Controller
 {
-    public function register($params)
+    private $authRepository;
+
+    public function __construct(AuthRepository $authRepository)
     {
-        try {
-            $user = User::create([
-                'name' => $params['fname'],
-                'email' => $params['email'],
-                'phone' => $params['phone'] ?? null,
-                'password' => Hash::make($params['password'])
-            ]);
-
-            $user->assignRole('user');
-
-            $token = $user->createToken('Personal Access Token')?->plainTextToken;
-
-            return response()->json([
-                'success' => true,
-                'message' => "User signed up successfully!",
-                'data' => ["token" => $token]
-            ], 201);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-                'data' => null
-            ], 500);
-        }
+        $this->authRepository = $authRepository;
     }
 
-    public function login($params)
+    public function register(Request $request)
     {
-        try {
-            $user = User::where([['email', $params['email']]])->first();
+        $params = $request->all();
+        return $this->authRepository->register($params);
+    }
 
-            if (!$user || !Hash::check($params['password'], $user->password)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You have entered an invalid email or password.',
-                    'data' => null
-                ], 401);
-            }
-
-            $token = $user->createToken('Personal Access Token')?->plainTextToken;
-
-            return response()->json([
-                'success' => true,
-                'message' => 'User signed in successfully.',
-                'data' => ["token" => $token]
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-                'data' => null
-            ], 500);
-        }
+    public function login(Request $request)
+    {
+        $params = $request->all();
+        return $this->authRepository->login($params);
     }
 
     public function loggedInUser()
     {
-        try {
-            return response()->json([
-                'success' => true,
-                'message' => 'Logged In User',
-                'data' => new UserResource(Auth::user())
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-                'data' => null
-            ], 500);
-        }
+        return $this->authRepository->loggedInUser();
     }
 
     public function logout()
     {
-        try {
-            Auth::user()->tokens()->delete();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Log out successfully.',
-                'data' => null
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-                'data' => null
-            ], 500);
-        }
+        return $this->authRepository->logout();
     }
 }

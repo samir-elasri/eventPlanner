@@ -8,30 +8,19 @@ use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Web\Event\EventsResource;
+use App\Repositories\Web\EventRepository;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private $eventRepository;
+
+    public function __construct(EventRepository $eventRepository)
+    {
+        $this->eventRepository = $eventRepository;
+    }
+
     public function index()
     {
-        try{
-            $events =  Event::paginate(15);
-            $data = [
-                'events' => EventsResource::collection($events),
-                'pagination' => [
-                    'total' => $events->total(),
-                    'per_page' => $events->perPage(),
-                    'current_page' => $events->currentPage(),
-                    'total_pages' => $events->lastPage(),
-                    'next_page_url' => $events->nextPageUrl(),
-                    'prev_page_url' => $events->previousPageUrl()
-                ]
-            ];
-            return $data;
-        } catch(Exception $e){
-            return ['error' => $e->getMessage()];
-        }
+        return $this->eventRepository->all();
     }
 }
