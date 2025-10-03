@@ -17,17 +17,38 @@ class AuthController extends Controller
         $this->authRepository = $authRepository;
     }
     
+    /**
+     * @OA\Post(
+     *     path="/api/dashboard/login",
+     *     summary="Dashboard admin login",
+     *     @OA\Response(response=200, description="Admin logged in successfully")
+     * )
+     */
     public function login(Request $request)
     {
         $params = $request->all();
         return $this->authRepository->login($params);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/dashboard/user",
+     *     summary="Get logged in admin user details",
+     *     @OA\Response(response=200, description="Admin user details retrieved successfully")
+     * )
+     */
     public function loggedInUser()
     {
         return $this->authRepository->loggedInUser();
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/dashboard/logout",
+     *     summary="Dashboard admin logout",
+     *     @OA\Response(response=200, description="Admin logged out successfully")
+     * )
+     */
     public function logout()
     {
         return $this->authRepository->logout();

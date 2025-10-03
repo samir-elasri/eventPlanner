@@ -1,0 +1,306 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Event Planner API",
+        "description": "API documentation for the Event Planner application",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Local development server"
+        }
+    ],
+    "paths": {
+        "/api/dashboard/login": {
+            "post": {
+                "summary": "Dashboard admin login",
+                "operationId": "5b60db8d5199c2d3a7c450605d38d0bc",
+                "responses": {
+                    "200": {
+                        "description": "Admin logged in successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/user": {
+            "get": {
+                "summary": "Get logged in admin user details",
+                "operationId": "25e16dcc285b6c2d9485fb044691ffd1",
+                "responses": {
+                    "200": {
+                        "description": "Admin user details retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/logout": {
+            "post": {
+                "summary": "Dashboard admin logout",
+                "operationId": "32deddd6f8dfa4c857ad9d3635e0ddd0",
+                "responses": {
+                    "200": {
+                        "description": "Admin logged out successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/events": {
+            "get": {
+                "summary": "Get all events",
+                "operationId": "8c8af35fbdcdb22e4600adb8118e0ce8",
+                "responses": {
+                    "200": {
+                        "description": "Events retrieved successfully"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new event",
+                "operationId": "c7ee22ad3ef1c8a153cfbdc88dc655af",
+                "responses": {
+                    "201": {
+                        "description": "Event created successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/events/{event_id}": {
+            "get": {
+                "summary": "Get event by ID",
+                "operationId": "b6136489f85cc40b21949340121263a4",
+                "responses": {
+                    "200": {
+                        "description": "Event retrieved successfully"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update event",
+                "operationId": "ae1b4901399eaf1046a87e17220e6b8a",
+                "responses": {
+                    "200": {
+                        "description": "Event updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete event",
+                "operationId": "3e61a11d49a6e4ca9a672660ceb63eea",
+                "responses": {
+                    "200": {
+                        "description": "Event deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/events/{event_id}/toggle-role": {
+            "put": {
+                "summary": "Toggle event role",
+                "operationId": "631c442291ed2929b467f2325fe6c8b4",
+                "responses": {
+                    "200": {
+                        "description": "Event role toggled successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/registrations": {
+            "get": {
+                "summary": "Get all registrations",
+                "operationId": "572deb69e3434dc5df15058058dca1ab",
+                "responses": {
+                    "200": {
+                        "description": "Registrations retrieved successfully"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new registration",
+                "operationId": "40d0979d39b0d0c1295d26353cc4a1bf",
+                "responses": {
+                    "201": {
+                        "description": "Registration created successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/registrations/{registration_id}": {
+            "get": {
+                "summary": "Get registration by ID",
+                "operationId": "8253512f4e566248cd6c5a9756aa7f8c",
+                "responses": {
+                    "200": {
+                        "description": "Registration retrieved successfully"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update registration",
+                "operationId": "232b60819960d437333b4d62ed2b3d91",
+                "responses": {
+                    "200": {
+                        "description": "Registration updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete registration",
+                "operationId": "e7944de38d405c97a92b3aa8f1d623c7",
+                "responses": {
+                    "200": {
+                        "description": "Registration deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/users": {
+            "get": {
+                "summary": "Get all users",
+                "operationId": "320906fed968f717081a051db17c074c",
+                "responses": {
+                    "200": {
+                        "description": "Users retrieved successfully"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new user",
+                "operationId": "91eaacada5a2f2e96ccbcea765c51876",
+                "responses": {
+                    "201": {
+                        "description": "User created successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/users/{user_id}": {
+            "get": {
+                "summary": "Get user by ID",
+                "operationId": "068698bd0bac24d2a9363da0fff70c62",
+                "responses": {
+                    "200": {
+                        "description": "User retrieved successfully"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update user",
+                "operationId": "e9b0aed35822d304d05ef494c8180aec",
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete user",
+                "operationId": "d8ec40a17db1e0718744bc3c77192a0e",
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/users/{user_id}/toggle-role": {
+            "put": {
+                "summary": "Toggle user role",
+                "operationId": "892b320879f614e24aa5787afef41a36",
+                "responses": {
+                    "200": {
+                        "description": "User role toggled successfully"
+                    }
+                }
+            }
+        },
+        "/api/web/register": {
+            "post": {
+                "summary": "Register a new user",
+                "operationId": "2ae278f27c8b39b842459702d188806b",
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    }
+                }
+            }
+        },
+        "/api/web/login": {
+            "post": {
+                "summary": "Login user",
+                "operationId": "0f5b74582c998142778403d823694a45",
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    }
+                }
+            }
+        },
+        "/api/web/user": {
+            "get": {
+                "summary": "Get logged in user details",
+                "operationId": "41ced7cb3c19f470cd90edbd8cfa4ded",
+                "responses": {
+                    "200": {
+                        "description": "User details retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/web/logout": {
+            "post": {
+                "summary": "Logout user",
+                "operationId": "426b04394f0e3f71e552a8f0fa192a83",
+                "responses": {
+                    "200": {
+                        "description": "User logged out successfully"
+                    }
+                }
+            }
+        },
+        "/api/web/events": {
+            "get": {
+                "summary": "Get all events",
+                "operationId": "6abc42f2055508c0053180133e140c60",
+                "responses": {
+                    "200": {
+                        "description": "Events retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/web/registrations": {
+            "get": {
+                "summary": "Get user registrations",
+                "operationId": "001c39b0bfe094133872966b3c3deac3",
+                "responses": {
+                    "200": {
+                        "description": "Registrations retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/web/registrations/join": {
+            "post": {
+                "summary": "Join an event",
+                "operationId": "572b8f970a4ae62cdd3405187078628b",
+                "responses": {
+                    "201": {
+                        "description": "Event joined successfully"
+                    }
+                }
+            }
+        },
+        "/api/web/registrations/cancel": {
+            "delete": {
+                "summary": "Cancel event registration",
+                "operationId": "4825f4044a065372d8e8491ecaad79eb",
+                "responses": {
+                    "200": {
+                        "description": "Registration cancelled successfully"
+                    }
+                }
+            }
+        }
+    }
+}

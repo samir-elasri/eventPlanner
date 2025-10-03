@@ -20,16 +20,37 @@ class RegistrationController extends Controller
         $this->registrationRepository = $registrationRepository;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/web/registrations",
+     *     summary="Get user registrations",
+     *     @OA\Response(response=200, description="Registrations retrieved successfully")
+     * )
+     */
     public function index()
     {
         return $this->registrationRepository->all();
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/web/registrations/join",
+     *     summary="Join an event",
+     *     @OA\Response(response=201, description="Event joined successfully")
+     * )
+     */
     public function join(Request $request)
     {
         return $this->registrationRepository->join($request->event_id);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/web/registrations/cancel",
+     *     summary="Cancel event registration",
+     *     @OA\Response(response=200, description="Registration cancelled successfully")
+     * )
+     */
     public function cancel(Request $request)
     {
         return $this->registrationRepository->cancel($request->registration_id);

@@ -19,6 +19,13 @@ class EventController extends Controller
         $this->eventRepository = $eventRepository;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/web/events",
+     *     summary="Get all events",
+     *     @OA\Response(response=200, description="Events retrieved successfully")
+     * )
+     */
     public function index()
     {
         return $this->eventRepository->all();
