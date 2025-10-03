@@ -29,6 +29,7 @@ class EventController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Event::class);
         return $this->eventRepository->all();
     }
 
@@ -41,6 +42,7 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create', Event::class);
         $params = $request->all();
         return $this->eventRepository->create($params);
     }
@@ -54,6 +56,8 @@ class EventController extends Controller
      */
     public function show(Request $request)
     {
+        $event = Event::findOrFail($request->event_id);
+        $this->authorize('view', $event);
         return $this->eventRepository->show($request->event_id);
     }
 
@@ -66,6 +70,8 @@ class EventController extends Controller
      */
     public function update(Request $request)
     {
+        $event = Event::findOrFail($request->event_id);
+        $this->authorize('update', $event);
         $params = $request->all();
         return $this->eventRepository->create($params, $request->event_id);
     }
@@ -79,18 +85,22 @@ class EventController extends Controller
      */
     public function destroy(Request $request)
     {
+        $event = Event::findOrFail($request->event_id);
+        $this->authorize('delete', $event);
         return $this->eventRepository->destroy($request->event_id);
     }
 
     /**
      * @OA\Put(
-     *     path="/api/dashboard/events/{event_id}/toggle-role",
-     *     summary="Toggle event role",
-     *     @OA\Response(response=200, description="Event role toggled successfully")
+     *     path="/api/dashboard/events/{event_id}/toggle-status",
+     *     summary="Toggle event status",
+     *     @OA\Response(response=200, description="Event status toggled successfully")
      * )
      */
-    public function toggleRole(Request $request)
+    public function toggleStatus(Request $request)
     {
-        return $this->eventRepository->destroy($request->event_id);
+        $event = Event::findOrFail($request->event_id);
+        $this->authorize('update', $event);
+        return $this->eventRepository->toggleStatus($request->event_id);
     }
 }

@@ -29,6 +29,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Registration::class);
         return $this->registrationRepository->all();
     }
 
@@ -41,6 +42,7 @@ class RegistrationController extends Controller
      */
     public function join(Request $request)
     {
+        $this->authorize('create', Registration::class);
         return $this->registrationRepository->join($request->event_id);
     }
 
@@ -53,6 +55,8 @@ class RegistrationController extends Controller
      */
     public function cancel(Request $request)
     {
+        $registration = Registration::findOrFail($request->registration_id);
+        $this->authorize('delete', $registration);
         return $this->registrationRepository->cancel($request->registration_id);
     }
 }

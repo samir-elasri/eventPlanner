@@ -19,7 +19,7 @@ class AuthController extends Controller
     
     /**
      * @OA\Post(
-     *     path="/api/dashboard/login",
+     *     path="/api/dashboard/auth/login",
      *     summary="Dashboard admin login",
      *     @OA\Response(response=200, description="Admin logged in successfully")
      * )
@@ -32,7 +32,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/dashboard/user",
+     *     path="/api/dashboard/auth/user",
      *     summary="Get logged in admin user details",
      *     @OA\Response(response=200, description="Admin user details retrieved successfully")
      * )
@@ -44,7 +44,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/dashboard/logout",
+     *     path="/api/dashboard/auth/logout",
      *     summary="Dashboard admin logout",
      *     @OA\Response(response=200, description="Admin logged out successfully")
      * )

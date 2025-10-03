@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/web/register",
+     *     path="/api/web/auth/register",
      *     summary="Register a new user",
      *     @OA\Response(response=201, description="User registered successfully")
      * )
@@ -32,7 +32,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/web/login",
+     *     path="/api/web/auth/login",
      *     summary="Login user",
      *     @OA\Response(response=200, description="User logged in successfully")
      * )
@@ -45,7 +45,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/web/user",
+     *     path="/api/web/auth",
      *     summary="Get logged in user details",
      *     @OA\Response(response=200, description="User details retrieved successfully")
      * )
@@ -57,7 +57,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/web/logout",
+     *     path="/api/web/auth/logout",
      *     summary="Logout user",
      *     @OA\Response(response=200, description="User logged out successfully")
      * )
