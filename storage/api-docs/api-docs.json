@@ -105,6 +105,28 @@
                 }
             }
         },
+        "/api/dashboard/events/{event_id}/registrations/{registration_id}/upgrade": {
+            "post": {
+                "summary": "Upgrade waitlisted user forcibly",
+                "operationId": "68ba1e7efba2a722e85fe84504edae6d",
+                "responses": {
+                    "200": {
+                        "description": "Event status toggled successfully"
+                    }
+                }
+            }
+        },
+        "/api/dashboard/{event_id}/auto-upgrade": {
+            "post": {
+                "summary": "Upgarede most recent waitlisted user if possible",
+                "operationId": "9d6720995d9a524a8a6a32ad46ff59c4",
+                "responses": {
+                    "200": {
+                        "description": "Event status toggled successfully"
+                    }
+                }
+            }
+        },
         "/api/web/auth/register": {
             "post": {
                 "summary": "Register a new user",

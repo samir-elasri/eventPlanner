@@ -19,5 +19,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/{event_id}', [EventController::class, 'show']);
         Route::delete('/{event_id}', [EventController::class, 'delete']);
         Route::post('/{event_id}/toggle-status', [EventController::class, 'toggleStatus']);
+
+        // Waitlist management
+        Route::post('/{event_id}/auto-upgrade', [EventController::class, 'autoUpgradeFromWaitlist']);
+        Route::post('/{event_id}/registrations/{registration_id}/upgrade', [EventController::class, 'upgradeFromWaitlist']);
     });
 });

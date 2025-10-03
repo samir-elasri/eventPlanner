@@ -43,16 +43,64 @@ class RegistrationRepository
         try {
             $event = Event::findOrFail($event_id);
 
+            // case where i already registered
+            $existingRegistration = Registration::where('event_id', $event_id)
+                ->where('user_id', auth()->user()->id)
+                ->first();
+
+            if ($existingRegistration) {
+                return response()->json([
+                    'code' => 409,
+                    'message' => 'You are already registered for this event!'
+                ], 409);
+            }
+
+            // case where the user already signed up for an event that overlaps with this one
+            $overlappingEvents = Event::getOverlappingEventsForUser(auth()->user()->id, $event);
+            
+            if (!empty($overlappingEvents)) {
+                $overlappingEventNames = [];
+                foreach ($overlappingEvents as $e) {
+                    $overlappingEventNames[] = $e->name;
+                }
+                
+                return response()->json([
+                    'code' => 409,
+                    'message' => 'You cannot join this event as it overlaps with: ' . implode(', ', $overlappingEventNames),
+                    'overlapping_events' => $overlappingEventNames
+                ], 409);
+            }
+
+            $joinedCount = $event->joinedRegistrations()->count();
+            $waitlistCount = $event->waitlistedRegistrations()->count();
+
+            // case where even the waitlist is full
+            $status = 'joined';
+            if ($joinedCount >= $event->capacity) {
+                if ($waitlistCount >= $event->waitlist_capacity) {
+                    return response()->json([
+                        'code' => 400,
+                        'message' => 'Event is full and waitlist capacity has been reached!'
+                    ], 400);
+                }
+                $status = 'waitlist';
+            }
+
             $registration = new Registration();
             $registration->event_id = $event->id;
             $registration->user_id = auth()->user()->id;
             $registration->joined_at = now();
-            $registration->status = 'joined';
+            $registration->status = $status;
             $registration->save();
+
+            $message = $status === 'waitlist' 
+                ? 'Added to waitlist successfully!' 
+                : 'Event joined successfully!';
 
             return response()->json([
                 'code' => 201,
-                'message' => 'Evet joined successfully!'
+                'message' => $message,
+                'status' => $status
             ], 201);
         } catch (ModelNotFoundException $e) {
             return response()->json([

@@ -24,6 +24,14 @@ class EventResource extends JsonResource
             'capacity' => $this->capacity,
             'waitlist_capacity' => $this->waitlist_capacity,
             'status' => $this->status,
+            'registration_stats' => [
+                'joined_count' => $this->joinedRegistrations()->count(),
+                'waitlist_count' => $this->waitlistedRegistrations()->count(),
+                'available_spots' => max(0, $this->capacity - $this->joinedRegistrations()->count()),
+                'waitlist_available' => max(0, $this->waitlist_capacity - $this->waitlistedRegistrations()->count()),
+                'is_full' => $this->joinedRegistrations()->count() >= $this->capacity,
+                'waitlist_full' => $this->waitlistedRegistrations()->count() >= $this->waitlist_capacity
+            ],
             'registrations' => $this->registrations
         ];
     }
