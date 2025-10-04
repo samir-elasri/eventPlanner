@@ -23,9 +23,10 @@
             "dest": "api/index.php"
         }
     ],
+    "buildCommand": "composer install --no-dev --optimize-autoloader",
+    "installCommand": "composer install --no-dev",
     "env": {
         "APP_ENV": "production",
-        "APP_DEBUG": "false",
-        "APP_URL": "https://eventplanner-api.vercel.app"
+        "APP_DEBUG": "false"
     }
 }
