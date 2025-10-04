@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Web\Registration\RegistrationsResource;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\EventRegistrationConfirmation;
 
 class RegistrationRepository
 {
@@ -101,6 +102,9 @@ class RegistrationRepository
             $registration->joined_at = now();
             $registration->status = $status;
             $registration->save();
+
+            // Will be sending confirmation email
+            auth()->user()->notify(new EventRegistrationConfirmation($event, $registration));
 
             $message = $status === 'waitlist' 
                 ? 'Added to waitlist successfully!' 
