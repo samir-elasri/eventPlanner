@@ -1,61 +1,200 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Event Planner
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive event planning application built with Laravel 11 backend and Vue 3 frontend, featuring a REST API, admin dashboard powered by FilamentPHP, and complete API documentation.
 
-## About Laravel
+## 📋 Table of Contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Email Configuration](#email-configuration)
+- [Running the Application](#running-the-application)
+- [API Documentation](#api-documentation)
+- [Postman Collection](#postman-collection)
+- [Access Points](#access-points)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🔧 Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP >= 8.1
+- Composer
+- MySQL/PostgreSQL
+- Node.js >= 18 & NPM (for Vue 3 frontend)
 
-## Learning Laravel
+## 📦 Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd eventPlanner
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2. Install PHP dependencies:
+```bash
+composer install
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. Install NPM dependencies:
+```bash
+npm install
+```
 
-## Laravel Sponsors
+4. Copy the environment file:
+```bash
+cp .env.example .env
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+5. Generate application key:
+```bash
+php artisan key:generate
+```
 
-### Premium Partners
+6. Run migrations:
+```bash
+php artisan migrate
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+7. Seed the database (optional):
+```bash
+php artisan db:seed
+```
 
-## Contributing
+8. Build frontend assets:
+```bash
+npm run build
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🔐 Environment Variables
 
-## Code of Conduct
+Configure the following variables in your `.env` file:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Database Configuration
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=event_planner
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Security Vulnerabilities
+### Application Settings
+```env
+APP_NAME="Event Planner"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Email Configuration (see below for Mailtrap setup)
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_mailtrap_username
+MAIL_PASSWORD=your_mailtrap_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=noreply@eventplanner.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
 
-## License
+### FilamentPHP Admin
+```env
+FILAMENT_DASHBOARD_URL=/admin
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📧 Email Configuration
+
+I recommend using **Mailtrap** for development email testing:
+
+1. Sign up for a free account at [Mailtrap.io](https://mailtrap.io/)
+2. Create a new inbox
+3. Copy the SMTP credentials from your Mailtrap inbox
+4. Update the following in your `.env`:
+   ```env
+   MAIL_MAILER=smtp
+   MAIL_HOST=sandbox.smtp.mailtrap.io
+   MAIL_PORT=2525
+   MAIL_USERNAME=<your_mailtrap_username>
+   MAIL_PASSWORD=<your_mailtrap_password>
+   MAIL_ENCRYPTION=tls
+   ```
+
+For production, configure your preferred email service (SendGrid, Mailgun, SES, etc.)
+
+**Mailtrap Resources:**
+- [Mailtrap Documentation](https://help.mailtrap.io/)
+- [Laravel Mail Configuration](https://laravel.com/docs/mail)
+
+## 🚀 Running the Application
+
+### Backend Server
+Start the Laravel development server:
+```bash
+php artisan serve
+```
+
+The application will be available at `http://localhost:8000`
+
+### Frontend Development (Vue 3)
+Start the Vite development server:
+```bash
+npm run dev
+```
+
+The Vue 3 frontend will be available at `http://localhost:5173`
+
+### Build for Production
+```bash
+npm run build
+```
+
+## 📚 API Documentation
+
+### Swagger/OpenAPI Documentation
+Access the interactive API documentation at:
+- **URL:** `http://localhost:8000/api/documentation`
+- **Resources:**
+  - [Swagger UI Documentation](https://swagger.io/tools/swagger-ui/)
+  - [OpenAPI Specification](https://swagger.io/specification/)
+
+## 📮 Postman Collection
+
+A Postman collection file is available at the root of the project for easy API testing:
+
+1. Open Postman
+2. Click **Import**
+3. Select the `postman_collection.json` file from the project root
+4. The collection will be imported with all API endpoints pre-configured
+
+**Postman Resources:**
+- [Download Postman](https://www.postman.com/downloads/)
+- [Importing Collections Guide](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/)
+
+## 🔗 Access Points
+
+### Base API
+- **URL:** `http://localhost:8000/api`
+- All API endpoints are prefixed with `/api`
+
+### Admin Dashboard (FilamentPHP)
+- **URL:** `http://localhost:8000/admin`
+- Create an admin user:
+  ```bash
+  php artisan make:filament-user
+  ```
+- **Resources:**
+  - [FilamentPHP Documentation](https://filamentphp.com/docs)
+  - [FilamentPHP Admin Panel](https://filamentphp.com/docs/panels)
+
+### Swagger API Documentation
+- **URL:** `http://localhost:8000/api/documentation`
+
+## 🛠️ Additional Commands
+
+### Clear cache:
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+```

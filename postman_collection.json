@@ -1,0 +1,878 @@
+{
+  "info": {
+    "name": "Event Planner API",
+    "description": "Complete API collection for Event Planner application with Web and Dashboard endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "event-planner-api"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Web API",
+      "item": [
+        {
+          "name": "Authentication",
+          "item": [
+            {
+              "name": "Register User",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if (pm.response.code === 201) {",
+                      "    var jsonData = pm.response.json();",
+                      "    if (jsonData.data && jsonData.data.token) {",
+                      "        pm.collectionVariables.set('auth_token', jsonData.data.token);",
+                      "    }",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"phone\": \"+1234567890\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/web/auth/register",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "web", "auth", "register"]
+                }
+              }
+            },
+            {
+              "name": "Login User",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if (pm.response.code === 200) {",
+                      "    var jsonData = pm.response.json();",
+                      "    if (jsonData.data && jsonData.data.token) {",
+                      "        pm.collectionVariables.set('auth_token', jsonData.data.token);",
+                      "    }",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/web/auth/login",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "web", "auth", "login"]
+                }
+              }
+            },
+            {
+              "name": "Get Logged In User",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/web/auth",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "web", "auth"]
+                }
+              }
+            },
+            {
+              "name": "Logout User",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/web/auth/logout",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "web", "auth", "logout"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Events",
+          "item": [
+            {
+              "name": "List Events",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/web/events",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "web", "events"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Registrations",
+          "item": [
+            {
+              "name": "List My Registrations",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/web/registrations",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "web", "registrations"]
+                }
+              }
+            },
+            {
+              "name": "Join Event",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/web/registrations/:event_id/join",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "web", "registrations", ":event_id", "join"],
+                  "variable": [
+                    {
+                      "key": "event_id",
+                      "value": "1",
+                      "description": "Event ID"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Cancel Registration",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/web/registrations/:registration_id/cancel",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "web", "registrations", ":registration_id", "cancel"],
+                  "variable": [
+                    {
+                      "key": "registration_id",
+                      "value": "1",
+                      "description": "Registration ID"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dashboard API",
+      "item": [
+        {
+          "name": "Authentication",
+          "item": [
+            {
+              "name": "Login Admin",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if (pm.response.code === 200) {",
+                      "    var jsonData = pm.response.json();",
+                      "    if (jsonData.data && jsonData.data.token) {",
+                      "        pm.collectionVariables.set('auth_token', jsonData.data.token);",
+                      "    }",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/auth/login",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "auth", "login"]
+                }
+              }
+            },
+            {
+              "name": "Get Logged In Admin",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/auth",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "auth"]
+                }
+              }
+            },
+            {
+              "name": "Logout Admin",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/auth/logout",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "auth", "logout"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Events Management",
+          "item": [
+            {
+              "name": "List All Events",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/events",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "events"]
+                }
+              }
+            },
+            {
+              "name": "Get Event Details",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/events/:event_id",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "events", ":event_id"],
+                  "variable": [
+                    {
+                      "key": "event_id",
+                      "value": "1",
+                      "description": "Event ID"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Event",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Tech Conference 2024\",\n    \"start_datetime\": \"2024-06-15 09:00:00\",\n    \"duration\": 480,\n    \"description\": \"Annual technology conference featuring latest innovations\",\n    \"location\": \"Convention Center, Main Hall\",\n    \"capacity\": 100,\n    \"waitlist_capacity\": 20,\n    \"status\": \"draft\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/events/create",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "events", "create"]
+                }
+              }
+            },
+            {
+              "name": "Update Event",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"event_id\": 1,\n    \"name\": \"Tech Conference 2024 - Updated\",\n    \"start_datetime\": \"2024-06-15 10:00:00\",\n    \"duration\": 360,\n    \"description\": \"Updated description\",\n    \"location\": \"Convention Center, Hall A\",\n    \"capacity\": 150,\n    \"waitlist_capacity\": 30,\n    \"status\": \"live\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/events/update",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "events", "update"]
+                }
+              }
+            },
+            {
+              "name": "Delete Event",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/events/:event_id",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "events", ":event_id"],
+                  "variable": [
+                    {
+                      "key": "event_id",
+                      "value": "1",
+                      "description": "Event ID"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Toggle Event Status",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/events/:event_id/toggle-status",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "events", ":event_id", "toggle-status"],
+                  "variable": [
+                    {
+                      "key": "event_id",
+                      "value": "1",
+                      "description": "Event ID"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Waitlist Management",
+          "item": [
+            {
+              "name": "Auto Upgrade from Waitlist",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/events/:event_id/auto-upgrade",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "events", ":event_id", "auto-upgrade"],
+                  "variable": [
+                    {
+                      "key": "event_id",
+                      "value": "1",
+                      "description": "Event ID"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Upgrade Specific Registration",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{auth_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/dashboard/events/:event_id/registrations/:registration_id/upgrade",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "dashboard", "events", ":event_id", "registrations", ":registration_id", "upgrade"],
+                  "variable": [
+                    {
+                      "key": "event_id",
+                      "value": "1",
+                      "description": "Event ID"
+                    },
+                    {
+                      "key": "registration_id",
+                      "value": "1",
+                      "description": "Registration ID"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get All Notifications",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications"]
+            }
+          }
+        },
+        {
+          "name": "Get Unread Notifications",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/unread",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "unread"]
+            }
+          }
+        },
+        {
+          "name": "Mark Notification as Read",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/:id/read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", ":id", "read"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "notification-uuid",
+                  "description": "Notification UUID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark All as Read",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/read-all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "read-all"]
+            }
+          }
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "notification-uuid",
+                  "description": "Notification UUID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Read Notifications",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "read"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
