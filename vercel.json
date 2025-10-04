@@ -23,7 +23,7 @@
             "dest": "api/index.php"
         }
     ],
-    "installCommand": "composer install --no-dev --optimize-autoloader",
+    "installCommand": "php -r \"copy('https://getcomposer.org/installer','composer-setup.php');\" && php composer-setup.php --install-dir=/tmp --filename=composer && php /tmp/composer install --no-dev --optimize-autoloader --no-interaction",
     "buildCommand": "echo 'Build complete'",
     "env": {
         "APP_ENV": "production",
