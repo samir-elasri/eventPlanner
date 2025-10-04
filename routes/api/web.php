@@ -15,12 +15,14 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'events'], function () {
-        Route::get('/index', [EventController::class, 'index']);
+        Route::get('/', [EventController::class, 'index']);
     });
 
     Route::group(['prefix' => 'registrations'], function () {
-        Route::get('/index', [RegistrationController::class, 'index']);
-        Route::post('/{event_id}/join', [RegistrationController::class, 'joinRegistration']);
-        Route::post('/{registration_id}/cancel', [RegistrationController::class, 'cancelRegistration']);
+        Route::get('/', [RegistrationController::class, 'index']);
+        Route::post('/{event_id}/join', [RegistrationController::class, 'join']);
+        Route::post('/{registration_id}/cancel', [RegistrationController::class, 'cancel']);
     });
 });
+
+// php artisan l5-swagger:generate

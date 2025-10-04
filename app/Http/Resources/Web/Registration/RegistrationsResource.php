@@ -4,8 +4,7 @@ namespace App\Http\Resources\Web\Registration;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Dashboard\User\UserResource;
-use App\Http\Resources\Dashboard\Registration\RegistrationResource;
+use App\Http\Resources\Web\Event\EventResource;
 
 class RegistrationsResource extends JsonResource
 {
@@ -18,7 +17,7 @@ class RegistrationsResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'event' => $this->RegistrationResource($this->event),
+            'event' => new EventResource($this->event),
             'status' => $this->status,
             'joined_at' => $this->joined_at
         ];

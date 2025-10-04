@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Web\Event\EventsResource;
+use Illuminate\Support\Facades\Auth;
 
 class EventRepository
 {
@@ -16,21 +17,22 @@ class EventRepository
      */
     public function index()
     {
-        try{
-            $events =  Event::paginate(15);
-            $data = [
-                'events' => EventsResource::collection($events),
-                'pagination' => [
-                    'total' => $events->total(),
-                    'per_page' => $events->perPage(),
-                    'current_page' => $events->currentPage(),
-                    'total_pages' => $events->lastPage(),
-                    'next_page_url' => $events->nextPageUrl(),
-                    'prev_page_url' => $events->previousPageUrl()
-                ]
+        try {
+            $user = Auth::user();
+            $query = Event::query();
+
+            if ($user && $user->hasRole('admin')) {
+                $events = $query->get();
+            } elseif ($user && $user->hasRole('user')) {
+                $events = $query->where('status', 'live')->get();
+            } else {
+                $events = $query->where('status', 'live')->get();
+            }
+
+            return [
+                'events' => EventsResource::collection($events)
             ];
-            return $data;
-        } catch(Exception $e){
+        } catch (Exception $e) {
             return ['error' => $e->getMessage()];
         }
     }
