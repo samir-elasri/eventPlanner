@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Web\User;
+namespace App\Http\Resources\Web\Event;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class EventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +17,11 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
-            'roles' => $this->getRoleNames(),
-            'registrations' => $this->registrations,
-            'created_at' => $this->created_at,
+            'start_datetime' => $this->start_datetime,
+            'duration' => $this->duration,
+            'description' => $this->description,
+            'location' => $this->location,
+            'capacity' => $this->capacity,
         ];
     }
 }

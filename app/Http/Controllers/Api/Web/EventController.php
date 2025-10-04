@@ -29,6 +29,6 @@ class EventController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Event::class);
-        return $this->eventRepository->all(['status' => 'live']);
+        return $this->eventRepository->index(['status' => 'live']);
     }
 }

@@ -30,7 +30,7 @@ class RegistrationController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Registration::class);
-        return $this->registrationRepository->all();
+        return $this->registrationRepository->index();
     }
 
     /**

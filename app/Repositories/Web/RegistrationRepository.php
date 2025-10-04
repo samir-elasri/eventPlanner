@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Web\Registration\RegistrationsResource;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrationRepository
 {
@@ -17,7 +18,15 @@ class RegistrationRepository
     public function index()
     {
         try{
-            $registrations =  Registration::paginate(15);
+            $user = Auth::user();
+            $query = Registration::query();
+            
+            if ($user && $user->hasRole('admin')) {
+                $registrations = $query->paginate(15);
+            } else {
+                $registrations = $query->where('user_id', $user->id)->paginate(15);
+            }
+
             $data = [
                 'registrations' => RegistrationsResource::collection($registrations),
                 'pagination' => [
