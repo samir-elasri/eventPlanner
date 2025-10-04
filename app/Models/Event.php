@@ -85,4 +85,78 @@ class Event extends Model
 
         return $overlappingEvents;
     }
+
+    /**
+     * Check if the event is full (capacity reached)
+     */
+    public function isFull()
+    {
+        return $this->joinedRegistrations()->count() >= $this->capacity;
+    }
+
+    /**
+     * Check if the waitlist is full
+     */
+    public function isWaitlistFull()
+    {
+        return $this->waitlistedRegistrations()->count() >= $this->waitlist_capacity;
+    }
+
+    /**
+     * Get available spots in the event
+     */
+    public function getAvailableSpots()
+    {
+        return max(0, $this->capacity - $this->joinedRegistrations()->count());
+    }
+
+    /**
+     * Get available waitlist spots
+     */
+    public function getAvailableWaitlistSpots()
+    {
+        return max(0, $this->waitlist_capacity - $this->waitlistedRegistrations()->count());
+    }
+
+    /**
+     * Check if a user can join the event
+     * Returns: ['can_join' => bool, 'status' => 'joined'|'waitlist'|'full', 'message' => string]
+     */
+    public function canUserJoin($userId)
+    {
+        // Check if user already registered
+        $existingRegistration = $this->registrations()->where('user_id', $userId)->first();
+        if ($existingRegistration) {
+            return [
+                'can_join' => false,
+                'status' => 'already_registered',
+                'message' => 'You are already registered for this event.'
+            ];
+        }
+
+        // Check if event is full
+        if (!$this->isFull()) {
+            return [
+                'can_join' => true,
+                'status' => 'joined',
+                'message' => 'You can join this event.'
+            ];
+        }
+
+        // Event is full, check waitlist
+        if (!$this->isWaitlistFull()) {
+            return [
+                'can_join' => true,
+                'status' => 'waitlist',
+                'message' => 'Event is full. You will be added to the waitlist.'
+            ];
+        }
+
+        // Both event and waitlist are full
+        return [
+            'can_join' => false,
+            'status' => 'full',
+            'message' => 'Event and waitlist are both full.'
+        ];
+    }
 }
