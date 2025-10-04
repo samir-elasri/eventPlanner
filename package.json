@@ -1,10 +1,11 @@
 {
+    "name": "event-planner",
     "$schema": "https://json.schemastore.org/package.json",
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
+        "build": "npm run production",
+        "production": "mix --production"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
